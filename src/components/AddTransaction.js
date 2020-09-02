@@ -17,9 +17,9 @@ export const AddTransaction = () => {
                     onChange={(e)=>setDescription(e.target.value)}/>
                 </div>
                 <div className="form-control">
-                    <label className="transactionamount">Transaction Amount</label>
+                    <label className="transactionAmount">Transaction Amount</label>
                     <input type="number"
-                        id="transactionamount"
+                        id="transactionAmount"
                         placeholder="Enter transaction amount"
                         value={transactionAmount}
                         onChange={(e)=>setTransactionAmount(e.target.value)}/>
