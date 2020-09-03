@@ -1,31 +1,48 @@
-import React, {createContext,userReducer, Children, useReducer} from 'react';
+import React, { createContext, useReducer } from 'react';
 
-//Import the Reducer
+// Import the Reducer
 import AppReducer from './AppReducer';
-//Create the initial state
-const initialState={
-    transactions:[
-        {id:1, description:"Income 1", transactionAmount:8000},
-        {id:1, description:"Expense 1", transactionAmount:-1000},
-        {id:1, description:"Income 2", transactionAmount:5000},
-        {id:1, description:"Expense 2", transactionAmount:-3000}
-    ]
+
+// Create the initial state
+const initialState = {
+    transactions: []
 }
 
-//Create Global Context
-export const GlobalContext=createContext(initialState);
+// Create the Global Context
+export const GlobalContext = createContext(initialState);
 
-//create a provider for the global context
-export const GlobalProvider=({children})=>{
+// Create a Provider for the Global Context
+export const GlobalProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(AppReducer, initialState);
 
-    const [state,dispatch]=useReducer(AppReducer,initialState);
-    return(
+    // Actions for Transactions
+
+        // Delete Existing Transaction Action
+        function delTransaction(id) {
+            dispatch({
+                type: 'DELETE_TRANSACTION',
+                payload: id
+            });
+        }
+
+        // Add New Transaction Action
+        function addTransaction(transaction) {
+            dispatch({
+                type: 'ADD_TRANSACTION',
+                payload: transaction
+            })
+        }
+
+    return (
         <GlobalContext.Provider value={
             {
-                transactions:state.transactions
+                transactions: state.transactions,
+                delTransaction,
+                addTransaction
             }
         }>
             {children}
         </GlobalContext.Provider>
-    )
+    );
+
 }
